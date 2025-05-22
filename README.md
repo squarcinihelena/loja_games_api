@@ -143,10 +143,10 @@ Para executar os códigos localmente, você precisará:
 
 ### 7.1. Importando o Projeto
 
-1. Clone o repositório do Projeto [Loja de Games](https://github.com/rafaelq80/lojagames_spring_t82) dentro da pasta do *Workspace* do STS
+1. Clone o repositório do Projeto [Loja de Games](https://github.com/squarcinihelena/loja_games_api.git) dentro da pasta do *Workspace* do STS
 
 ```bash
-git clone https://github.com/rafaelq80/lojagames_spring_t82.git
+git clone (https://github.com/squarcinihelena/loja_games_api.git)
 ```
 
 1. **Abra o STS** e selecione a pasta do *Workspace* onde você clonou o repositório do projeto
@@ -187,8 +187,6 @@ git clone https://github.com/rafaelq80/lojagames_spring_t82.git
 
 ## 9. Contribuição
 
-Este repositório é parte de um projeto educacional, mas contribuições são bem-vindas! Caso tenha sugestões, correções ou melhorias, fique à vontade para:
-
 - Criar uma **issue**
 - Enviar um **pull request**
 - Compartilhar com colegas que estejam aprendendo Java!
@@ -197,5 +195,5 @@ Este repositório é parte de um projeto educacional, mas contribuições são b
 
 ## 10. Contato
 
-Desenvolvido por [**Rafael**](https://github.com/rafaelq80)
+Desenvolvido por [**Helena**](https://github.com/squarcinihelena)
 Para dúvidas, sugestões ou colaborações, entre em contato via GitHub ou abra uma issue!
