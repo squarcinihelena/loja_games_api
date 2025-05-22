@@ -19,20 +19,23 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "tb_categorias")
 public class Categoria {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@NotBlank(message = "Tipo é obrigatório!")
 	@Size(min = 5)
 	@Pattern(regexp = "^[^0-9].*", message = "O título não pode ser apenas numérico")
 	private String tipo;
-
+	
+	// Relacionamento OneToMany com Produto
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("categoria")
+	@JsonIgnoreProperties("categoria") // Evita loop infinito na serialização
 	private List<Produto> produto;
 
+	// Serialização é o processo de transformar um objeto Java em um formato que possa ser armazenado ou transmitido  (JSON, XML ou bytes) e depois reconstruído (deserializado) do outro lado.
+	
 	// Getters and Setters
 	public Long getId() {
 		return id;

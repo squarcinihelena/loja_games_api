@@ -42,7 +42,7 @@ public class CategoriaController {
 			.orElse(ResponseEntity.notFound().build());
 	}
 	
-	// Método para buscar categorias pelo tipo (parcial)
+	// Método para buscar categorias pelo tipo 
 	@GetMapping("/tipo/{tipo}")
 	public ResponseEntity<List<Categoria>> getByTipo(@PathVariable String tipo){
 		return ResponseEntity.ok(categoriaRepository.findAllByTipoContainingIgnoreCase(tipo));	

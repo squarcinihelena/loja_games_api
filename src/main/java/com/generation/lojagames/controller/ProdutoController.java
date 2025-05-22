@@ -16,63 +16,62 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.lojagames.model.Produto;
-import com.generation.lojagames.repository.CategoriaRepository;
 import com.generation.lojagames.repository.ProdutoRepository;
+import com.generation.lojagames.repository.CategoriaRepository;
 
 import jakarta.validation.Valid;
 
-@RestController	
+@RestController
 @RequestMapping("/produtos")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProdutoController {
-	
+
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
+	// Método para listar todos os produtos
 	@GetMapping
-	public ResponseEntity<List<Produto>> getAll(){
+	public ResponseEntity<List<Produto>> getAll() {
 		return ResponseEntity.ok(produtoRepository.findAll());
 	}
-	
+
+	// Método para listar um produto pelo ID
 	@GetMapping("/{id}")
-	public ResponseEntity<Produto> getById(@PathVariable Long id){
+	public ResponseEntity<Produto> getById(@PathVariable Long id) {
 		return produtoRepository.findById(id)
-			.map(resposta -> ResponseEntity.ok(resposta))
-			.orElse(ResponseEntity.notFound().build());
+				.map(resposta -> ResponseEntity.ok(resposta))
+				.orElse(ResponseEntity.notFound().build());
 	}
-	
-	@GetMapping("/nome/{nome}")
-	public ResponseEntity<List<Produto>> getByNome(@PathVariable String nome){
-		return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoreCase(nome));
-	}	
-	
+
+	// Método para adicionar um novo produto
 	@PostMapping
-	public ResponseEntity<Produto> postProduto(@Valid @RequestBody Produto produto){
-		return categoriaRepository.findById(produto.getCategoria().getId())
-				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(produtoRepository.save(produto)))
-				.orElse(ResponseEntity.badRequest().build());
+	public ResponseEntity<Produto> postProduto(@Valid @RequestBody Produto produto) {
+		// Verifica se a categoria existe
+		if (categoriaRepository.existsById(produto.getCategoria().getId())) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(produtoRepository.save(produto));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
 	}
-	
+
+	// Método para atualizar um produto
 	@PutMapping
 	public ResponseEntity<Produto> putProduto(@Valid @RequestBody Produto produto) {
-					
-		if (produtoRepository.existsById(produto.getId())){
-
-			return categoriaRepository.findById(produto.getCategoria().getId())
-					.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto)))
-					.orElse(ResponseEntity.badRequest().build());
-		}		
-		
-		return ResponseEntity.notFound().build();
-
+		// Verifica se o produto existe e se a categoria é válida
+		if (produtoRepository.existsById(produto.getId()) &&
+			categoriaRepository.existsById(produto.getCategoria().getId())) {
+			return ResponseEntity.ok(produtoRepository.save(produto));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
 	}
 
+	// Método para excluir um produto
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteProduto(@PathVariable Long id) {
-		
 		return produtoRepository.findById(id)
 				.map(resposta -> {
 					produtoRepository.deleteById(id);
