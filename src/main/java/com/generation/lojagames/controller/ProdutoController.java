@@ -1,5 +1,6 @@
 package com.generation.lojagames.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,18 @@ public class ProdutoController {
 		return produtoRepository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
+	}
+	
+	// GET produtos com preço MAIOR que o valor passado
+	@GetMapping("/maior/{preco}")
+	public ResponseEntity<List<Produto>> getByPrecoMaior(@PathVariable BigDecimal preco) {
+	    return ResponseEntity.ok(produtoRepository.findByPrecoGreaterThanOrderByPreco(preco));
+	}
+
+	// GET produtos com preço MENOR que o valor passado
+	@GetMapping("/menor/{preco}")
+	public ResponseEntity<List<Produto>> getByPrecoMenor(@PathVariable BigDecimal preco) {
+	    return ResponseEntity.ok(produtoRepository.findByPrecoLessThanOrderByPrecoDesc(preco));
 	}
 
 	// Método para adicionar um novo produto
